@@ -1,8 +1,9 @@
 ﻿namespace Mars_Rover
 {
-    public class Rover : //IGridElement?
+    public class Rover : IGridElement
     {
         public string Name { get; private set; }
+        public char Symbol { get; private set; }
         public Compass Orientation { get; set; }
         public List<Compass> History { get; private set; }
 
@@ -10,6 +11,7 @@
         {
             this.Name = name;
             this.Orientation = orientation;
+            this.Symbol = char.ToUpper(name[0]);
         }
 
     }
