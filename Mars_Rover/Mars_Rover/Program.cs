@@ -7,16 +7,11 @@ namespace Mars_Rover
         static void Main(string[] args)
         {
             Console.WriteLine("Hello, World!");
-            string input = "5: - 6";
-            char[] separatorChars = new char[] { ',', '-', ':', ';' };
-            string cleanedInputOne = input.Replace(',', ' ').Replace(':', ' ').Replace(';', ' ').Replace('-', ' ');
-            string cleanedInputTwo = Regex.Replace(cleanedInputOne, "[ ]+", " ");
-            string[] coordinates = cleanedInputTwo.Split(' ');
-            Console.WriteLine(cleanedInputOne);
-            Console.WriteLine(cleanedInputTwo);
-            Console.WriteLine(coordinates[0]);
-            Console.WriteLine(coordinates[1]);
-
+            Rover testRover = new Rover("testRover", Compass.N);
+            GridSize testSize = InputParser.StringToGridSize("60 20");
+            Position testStartingPosition = InputParser.ParseRoverStartingPosition("15 6 W");
+            Grid testGrid = Grid.GenerateGrid(testSize, testRover, testStartingPosition);
+            testGrid.Display(true);
 
         }
     }

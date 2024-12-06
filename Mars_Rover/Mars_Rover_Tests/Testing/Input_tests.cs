@@ -89,6 +89,7 @@ namespace Mars_Rover_Tests
             string hyphenWithSpaces = "5 - 6";
             string mix = " 5: - 6:";
             string space = "5 6";
+            string brackets = "(5, 6)";
 
             GridSize expectedOutput = new GridSize(5, 6);
 
@@ -99,6 +100,7 @@ namespace Mars_Rover_Tests
             InputParser.StringToGridSize(hyphenWithSpaces).Should().BeEquivalentTo(expectedOutput);
             InputParser.StringToGridSize(mix).Should().BeEquivalentTo(expectedOutput);
             InputParser.StringToGridSize(space).Should().BeEquivalentTo(expectedOutput);
+            InputParser.StringToGridSize(brackets).Should().BeEquivalentTo(expectedOutput);
         }
 
     }
