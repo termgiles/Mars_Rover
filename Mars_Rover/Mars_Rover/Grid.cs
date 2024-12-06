@@ -35,17 +35,20 @@ namespace Mars_Rover
                 {
                     rover.Rotate(i);
                 }
-                else if (RequestMove(rover))
+                if(i == Instruction.M)
                 {
-                    //UI increment coin score
-                    if (rover.Orientation == Compass.N || rover.Orientation == Compass.S)
-                        GridArray[(ElementHistory[rover][^2].x), (ElementHistory[rover][^2].y)] = new VerticalTrack();
-                    if (rover.Orientation == Compass.E || rover.Orientation == Compass.W)
-                        GridArray[(ElementHistory[rover][^2].x), (ElementHistory[rover][^2].y)] = new HorizontalTrack();
-                }
-                if (!RequestMove(rover))
-                {
-                    Console.WriteLine($"Rover {rover.Name} crashed at {ElementHistory[rover][^1].x} {ElementHistory[rover][^1].y}");
+                    if (RequestMove(rover))
+                    {
+                        //UI increment coin score
+                        if (rover.Orientation == Compass.N || rover.Orientation == Compass.S)
+                            GridArray[(ElementHistory[rover][^2].x), (ElementHistory[rover][^2].y)] = new VerticalTrack();
+                        if (rover.Orientation == Compass.E || rover.Orientation == Compass.W)
+                            GridArray[(ElementHistory[rover][^2].x), (ElementHistory[rover][^2].y)] = new HorizontalTrack();
+                    }
+                    if (!RequestMove(rover))
+                    {
+                        Console.WriteLine($"Rover {rover.Name} crashed at {ElementHistory[rover][^1].x} {ElementHistory[rover][^1].y}");
+                    }
                 }
             }
         }
@@ -81,7 +84,7 @@ namespace Mars_Rover
             if (this.GridArray[newPosition.x, newPosition.y] != null && this.GridArray[newPosition.x, newPosition.y].IsSolid) return false;
             this.ElementHistory[rover].Add(newPosition);
             this.GridArray[newPosition.x, newPosition.y] = rover;
-            this.GridArray[currentPosition.x, newPosition.y] = null;
+            this.GridArray[currentPosition.x, currentPosition.y] = null;
             return true;
         }
 
@@ -93,7 +96,7 @@ namespace Mars_Rover
                 sb.Append('=');
             }
                 sb.Append("\n");
-            for (int i = 0; i < this.Size.yAxis; i++)
+            for (int i = this.Size.yAxis -1; i >= 0; i--)
             {
                 sb.Append("||");
                 for (int j = 0; j < this.Size.xAxis; j++)
