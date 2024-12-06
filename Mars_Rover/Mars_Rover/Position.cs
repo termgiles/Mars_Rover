@@ -1,6 +1,6 @@
 ﻿namespace Mars_Rover
 {
-    public class Position 
+    public class Position       //couldHaveABuilder
     {
         public int x;
         public int y;

@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Diagnostics;
+using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 
 namespace Mars_Rover
@@ -41,6 +42,62 @@ namespace Mars_Rover
             catch
             {
                 throw new Exception("no recognised rover inputs");
+            }
+        }
+
+        public static Position ParseRoverStartingPosition(string roverStartingPositon)
+        {
+            //[0-9]* [0-9]* [NESW]
+            Position output = new Position();
+            try
+            {
+                Regex positionFormat = new Regex("[0-9] * [0-9] * [NESW]");
+                if (positionFormat.IsMatch(roverStartingPositon))
+                {
+                    output.x = Int32.Parse(roverStartingPositon.Split(' ')[0]);
+                    output.y = Int32.Parse(roverStartingPositon.Split(' ')[1]);
+                    output.orientation = roverStartingPositon.Split(' ')[2] switch
+                    {
+                        "N" => Compass.N,
+                        "E" => Compass.E,
+                        "S" => Compass.S,
+                        "W" => Compass.W
+                    };
+                }
+                else
+                {
+                    throw new Exception("not regex match");
+                }
+                return output;
+            }
+            catch
+            {
+                throw new Exception("faulty position coordinates or orientation"); 
+            }
+        }
+        public static Position ParseRoverStartingPosition((int,int,Compass) input)
+        {
+            Position output = new Position();
+            output.x = input.Item1;
+            output.y = input.Item2;
+            output.orientation = input.Item3;
+            return output;
+
+        }
+        
+        public static GridSize StringToGridSize(string input)
+        {
+            char[] separatorChars = new char[] { ',','-',':',';' };
+            string cleanedInputOne = input.Replace(',', ' ').Replace(':',' ').Replace(';',' ').Replace('-', ' ');
+            string cleanedInputTwo = Regex.Replace(cleanedInputOne, "[ ]*", " ");
+            string[] coordinates = input.Split(' ');
+            try
+            {
+                return new GridSize(int.Parse(coordinates[0]), int.Parse(coordinates[1]));
+            }
+            catch
+            {
+                throw new Exception("faulty grid coordinates");
             }
         }
     }

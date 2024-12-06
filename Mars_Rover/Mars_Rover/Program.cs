@@ -1,4 +1,6 @@
-﻿namespace Mars_Rover
+﻿using System.Text.RegularExpressions;
+
+namespace Mars_Rover
 {
     internal class Program
     {

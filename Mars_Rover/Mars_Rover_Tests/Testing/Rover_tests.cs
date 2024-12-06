@@ -50,5 +50,20 @@ namespace Mars_Rover_Tests
 
             }
         }
+
+        [Test]
+        public void ParseRoverStartingPosition_ShouldParseValidString()
+        {
+            string input = "5 6 W";
+            Position expectedOutput = new Position();
+            expectedOutput.x = 5;
+            expectedOutput.y = 6;
+            expectedOutput.orientation = Compass.W;
+
+            Position output = InputParser.ParseRoverStartingPosition(input);
+
+            output.Should().BeEquivalentTo(expectedOutput);
+        }
+            
     }
 }
