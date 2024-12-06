@@ -23,6 +23,13 @@ namespace Mars_Rover
             return newGrid;
         }
 
+        public void LandRover(Rover rover, Position roverPosition)
+        {
+            this.GridArray[roverPosition.x, roverPosition.y] = rover;
+            rover.Orientation = roverPosition.orientation;
+            this.ElementHistory.Add(rover, new List<Position> { roverPosition });
+        }
+
         public void InstructRover(List<Instruction> instructions,Rover rover)
         {
             if (!ElementHistory.Keys.Contains(rover))
@@ -48,13 +55,14 @@ namespace Mars_Rover
                     if (!RequestMove(rover))
                     {
                         Console.WriteLine($"Rover {rover.Name} crashed at {ElementHistory[rover][^1].x} {ElementHistory[rover][^1].y}");
+                        break;
                     }
                 }
             }
         }
         
 
-        public bool RequestMove(Rover rover)
+        private bool RequestMove(Rover rover)
         {
             Position currentPosition = ElementHistory[rover][^1];
             Compass currentOrientation = rover.Orientation;
