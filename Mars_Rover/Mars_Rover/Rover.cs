@@ -18,7 +18,7 @@
         public void Rotate(Instruction d)
         {
             if (d == Instruction.R) Orientation = (Compass)(((int)Orientation + 1)%4);
-            if (d == Instruction.L) Orientation = (Compass)(((int)Orientation + 1) % 4);
+            if (d == Instruction.L) Orientation = (Compass)(((int)Orientation + 3)%4);
         }
 
     }
