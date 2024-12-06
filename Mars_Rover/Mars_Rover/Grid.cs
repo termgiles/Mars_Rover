@@ -34,15 +34,22 @@ namespace Mars_Rover
                 if(i == Instruction.L || i == Instruction.R)
                 {
                     rover.Rotate(i);
-                    break;
                 }
-                if (this.RequestMove(rover))
+                else if (RequestMove(rover))
                 {
                     //UI increment coin score
-                    this.ElementHistory[rover].Add(new Position());////
+                    if (rover.Orientation == Compass.N || rover.Orientation == Compass.S)
+                        GridArray[(ElementHistory[rover][^2].x), (ElementHistory[rover][^2].y)] = new VerticalTrack();
+                    if (rover.Orientation == Compass.E || rover.Orientation == Compass.W)
+                        GridArray[(ElementHistory[rover][^2].x), (ElementHistory[rover][^2].y)] = new HorizontalTrack();
+                }
+                if (!RequestMove(rover))
+                {
+                    Console.WriteLine($"Rover {rover.Name} crashed at {ElementHistory[rover][^1].x} {ElementHistory[rover][^1].y}");
                 }
             }
         }
+        
 
         public bool RequestMove(Rover rover)
         {

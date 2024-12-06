@@ -9,9 +9,12 @@ namespace Mars_Rover
             Console.WriteLine("Hello, World!");
             Rover testRover = new Rover("testRover", Compass.N);
             GridSize testSize = InputParser.StringToGridSize("60 20");
-            Position testStartingPosition = InputParser.ParseRoverStartingPosition("15 6 W");
+            Position testStartingPosition = InputParser.ParseRoverStartingPosition("15 6 N");
             Grid testGrid = Grid.GenerateGrid(testSize, testRover, testStartingPosition);
             testGrid.Display(true);
+            testGrid.InstructRover(InputParser.ParseInstruction("LMMMMMMMMMMR"),testRover);
+            testGrid.Display(true);
+
 
         }
     }
