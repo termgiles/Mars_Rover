@@ -62,7 +62,7 @@ namespace Mars_Rover
         }
         
 
-        private bool RequestMove(Rover rover)
+        public bool RequestMove(Rover rover)
         {
             Position currentPosition = ElementHistory[rover][^1];
             Compass currentOrientation = rover.Orientation;

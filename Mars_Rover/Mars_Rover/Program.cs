@@ -6,6 +6,8 @@ namespace Mars_Rover
     {
         static void Main(string[] args)
         {
+            LoadingScreen loadingScreen = new LoadingScreen();
+            loadingScreen.Run();
             Console.WriteLine("Hello, World!");
             Rover testRover = new Rover("testRover", Compass.N);
             GridSize testSize = InputParser.StringToGridSize("30 20");
