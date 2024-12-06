@@ -23,6 +23,27 @@ namespace Mars_Rover
             return newGrid;
         }
 
+        public void InstructRover(List<Instruction> instructions,Rover rover)
+        {
+            if (!ElementHistory.Keys.Contains(rover))
+            {
+                throw new Exception("Rover not on grid");
+            }
+            foreach(Instruction i in instructions)
+            {
+                if(i == Instruction.L || i == Instruction.R)
+                {
+                    rover.Rotate(i);
+                    break;
+                }
+                if (this.RequestMove(rover))
+                {
+                    //UI increment coin score
+                    this.ElementHistory[rover].Add(new Position());////
+                }
+            }
+        }
+
         public bool RequestMove(Rover rover)
         {
             Position currentPosition = ElementHistory[rover][^1];
@@ -51,6 +72,9 @@ namespace Mars_Rover
             if (newPosition.x < 0 || newPosition.x >= this.Size.xAxis) return false;
             if (newPosition.y < 0 || newPosition.y >= this.Size.yAxis) return false;
             if (this.GridArray[newPosition.x, newPosition.y] != null && this.GridArray[newPosition.x, newPosition.y].IsSolid) return false;
+            this.ElementHistory[rover].Add(newPosition);
+            this.GridArray[newPosition.x, newPosition.y] = rover;
+            this.GridArray[currentPosition.x, newPosition.y] = null;
             return true;
         }
 
