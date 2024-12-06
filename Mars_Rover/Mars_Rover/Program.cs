@@ -16,6 +16,8 @@ namespace Mars_Rover
             Console.WriteLine(cleanedInputTwo);
             Console.WriteLine(coordinates[0]);
             Console.WriteLine(coordinates[1]);
+
+
         }
     }
 }
