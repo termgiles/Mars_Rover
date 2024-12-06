@@ -88,9 +88,9 @@ namespace Mars_Rover
         public static GridSize StringToGridSize(string input)
         {
             char[] separatorChars = new char[] { ',','-',':',';' };
-            string cleanedInputOne = input.Replace(',', ' ').Replace(':',' ').Replace(';',' ').Replace('-', ' ');
-            string cleanedInputTwo = Regex.Replace(cleanedInputOne, "[ ]*", " ");
-            string[] coordinates = input.Split(' ');
+            string cleanedInputOne = input.Replace(',', ' ').Replace(':',' ').Replace(';',' ').Replace('-', ' ').Trim();
+            string cleanedInputTwo = Regex.Replace(cleanedInputOne, "[ ]+", " ");
+            string[] coordinates = cleanedInputTwo.Split(' ');
             try
             {
                 return new GridSize(int.Parse(coordinates[0]), int.Parse(coordinates[1]));
