@@ -6,7 +6,7 @@ namespace Mars_Rover
     {
         public GridSize Size { get; private set; }
         public IGridElement[,] GridArray { get; private set; }
-        public Dictionary<IGridElement,List<Position>> ElementHistory { get; private set; }
+        public Dictionary<IGridElement,List<Position>> ElementHistory { get; private set; } = new Dictionary<IGridElement,List<Position>>();
 
         private Grid(GridSize size)
         {
@@ -48,9 +48,9 @@ namespace Mars_Rover
                 newPosition.x = currentPosition.x - 1;
                 newPosition.y = currentPosition.y;
             }
-            if (newPosition.x < 0 || newPosition.x > this.Size.xAxis) return false;
-            if (newPosition.y < 0 || newPosition.y > this.Size.yAxis) return false;
-            if (this.GridArray[newPosition.x, newPosition.y].IsSolid) return false;
+            if (newPosition.x < 0 || newPosition.x >= this.Size.xAxis) return false;
+            if (newPosition.y < 0 || newPosition.y >= this.Size.yAxis) return false;
+            if (this.GridArray[newPosition.x, newPosition.y] != null && this.GridArray[newPosition.x, newPosition.y].IsSolid) return false;
             return true;
         }
 

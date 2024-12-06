@@ -51,7 +51,7 @@ namespace Mars_Rover
             Position output = new Position();
             try
             {
-                Regex positionFormat = new Regex("[0-9] * [0-9] * [NESW]");
+                Regex positionFormat = new Regex("[0-9]* [0-9]* [NESW]");
                 if (positionFormat.IsMatch(roverStartingPositon))
                 {
                     output.x = Int32.Parse(roverStartingPositon.Split(' ')[0]);
