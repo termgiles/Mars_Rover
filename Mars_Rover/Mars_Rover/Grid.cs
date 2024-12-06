@@ -6,6 +6,8 @@ namespace Mars_Rover
     {
         public GridSize Size { get; private set; }
         public IGridElement[,] GridArray { get; private set; }
+        public Dictionary<IGridElement,List<Position>> ElementHistory { get; private set; }
+
         private Grid(GridSize size)
         {
             Size = size;
@@ -17,7 +19,39 @@ namespace Mars_Rover
             Grid newGrid = new Grid(size);
             newGrid.GridArray[roverPosition.x, roverPosition.y] = rover;
             rover.Orientation = roverPosition.orientation;
+            newGrid.ElementHistory.Add(rover,new List<Position> {roverPosition});
             return newGrid;
+        }
+
+        public bool RequestMove(Rover rover)
+        {
+            Position currentPosition = ElementHistory[rover][^1];
+            Compass currentOrientation = rover.Orientation;
+            Position newPosition = new Position();
+            if (rover.Orientation == Compass.N)
+            {
+                newPosition.x = currentPosition.x;
+                newPosition.y = currentPosition.y + 1;
+            }
+            if (rover.Orientation == Compass.E)
+            {
+                newPosition.x = currentPosition.x + 1;
+                newPosition.y = currentPosition.y;
+            }
+            if (rover.Orientation == Compass.S)
+            {
+                newPosition.x = currentPosition.x;
+                newPosition.y = currentPosition.y - 1;
+            }
+            if (rover.Orientation == Compass.W)
+            {
+                newPosition.x = currentPosition.x - 1;
+                newPosition.y = currentPosition.y;
+            }
+            if (newPosition.x < 0 || newPosition.x > this.Size.xAxis) return false;
+            if (newPosition.y < 0 || newPosition.y > this.Size.yAxis) return false;
+            if (this.GridArray[newPosition.x, newPosition.y].IsSolid) return false;
+            return true;
         }
 
         public string Display(bool? Write)

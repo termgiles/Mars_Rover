@@ -6,7 +6,7 @@
         public bool IsSolid { get; private set; } = true;
         public char Symbol { get; private set; }
         public Compass Orientation { get; set; }
-        public List<Compass> History { get; private set; }
+        public List<Compass> History { get; private set; }      //check if needed
 
         public Rover(string name, Compass orientation)
         {
