@@ -2,7 +2,7 @@
 {
     public interface IUserInterface 
     {
-        public void Run();
-        public Transition Next();
+        public Transition Run();
+        //public Transition Next();
     }
 }

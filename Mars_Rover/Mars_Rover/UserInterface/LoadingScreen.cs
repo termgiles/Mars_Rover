@@ -4,7 +4,7 @@
     {
 
         private Transition NextState = Transition.MAIN_MENU;
-        public void Run()
+        public Transition Run()
         {
             foreach(string line in UIElements.GenerateLoadingImage())
             {
@@ -13,11 +13,12 @@
             }
             Thread.Sleep(2000);
             Console.Clear();
+            return Transition.MAIN_MENU;
         }
 
-        public Transition Next()
-        {
-            return NextState;
-        }
+        //public Transition Next()
+        //{
+        //    return NextState;
+        //}
     }
 }
