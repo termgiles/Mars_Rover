@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using Mars_Rover;
+using System.Security.Cryptography.X509Certificates;
+using System.Text.RegularExpressions;
 
 namespace Mars_Rover
 {
@@ -22,9 +24,22 @@ namespace Mars_Rover
             //testGrid.InstructRover(InputParser.ParseInstruction("MMRMMRMRRM"),testRover2);
             //testGrid.Display(true);
 
-            LoadingScreen testLoadingScreen = new LoadingScreen();
-            string printnext = testLoadingScreen.Run();
-            Console.WriteLine(printnext);
+            //LoadingScreen testLoadingScreen = new LoadingScreen();
+            //string printnext = testLoadingScreen.Run();
+            //Console.WriteLine(printnext);
+
+            LoadingScreen testLoading = new LoadingScreen();
+            MainMenu testMainMenu = new MainMenu();
+            Settings testSettings = new Settings();
+            GameDisplay display = new GameDisplay();    
+
+
+            StateManager Handler = new StateManager(testLoading, testMainMenu, testSettings,display);
+            
+            while(Handler.GetState().GetType().ToString() != "Quit")
+            {
+                Handler.Run();
+            }
 
         }
     }

@@ -1,10 +1,10 @@
 ﻿namespace Mars_Rover
 {
-    public class LoadingScreen : IUserInterface
+    public class LoadingScreen : UserInterface
     {
 
         private Transition NextState = Transition.MAIN_MENU;
-        public Transition Run()
+        public override Transition Run()
         {
             foreach(string line in UIElements.GenerateLoadingImage())
             {
