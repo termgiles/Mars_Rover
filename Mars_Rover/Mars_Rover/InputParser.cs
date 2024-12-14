@@ -56,7 +56,7 @@ namespace Mars_Rover
                 {
                     output.x = Int32.Parse(roverStartingPositon.Split(' ')[0]);
                     output.y = Int32.Parse(roverStartingPositon.Split(' ')[1]);
-                    output.orientation = roverStartingPositon.Split(' ')[2] switch
+                    output.orientation = roverStartingPositon.Split(' ')[2].ToUpper() switch
                     {
                         "N" => Compass.N,
                         "E" => Compass.E,
