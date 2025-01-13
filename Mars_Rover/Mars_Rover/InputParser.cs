@@ -52,17 +52,25 @@ namespace Mars_Rover
             try
             {
                 Regex positionFormat = new Regex("[0-9]* [0-9]* [NESW]");
-                if (positionFormat.IsMatch(roverStartingPositon))
+                Regex positionFormatNoDirection = new Regex("[0-9]* [0-9]*");
+                if (positionFormat.IsMatch(roverStartingPositon) || positionFormatNoDirection.IsMatch(roverStartingPositon))
                 {
                     output.x = Int32.Parse(roverStartingPositon.Split(' ')[0]);
                     output.y = Int32.Parse(roverStartingPositon.Split(' ')[1]);
-                    output.orientation = roverStartingPositon.Split(' ')[2].ToUpper() switch
+                    try
                     {
-                        "N" => Compass.N,
-                        "E" => Compass.E,
-                        "S" => Compass.S,
-                        "W" => Compass.W
-                    };
+                        output.orientation = roverStartingPositon.Split(' ')[2].ToUpper() switch
+                        {
+                            "N" => Compass.N,
+                            "E" => Compass.E,
+                            "S" => Compass.S,
+                            "W" => Compass.W
+                        };
+                    }
+                    catch
+                    {
+                        output.orientation = Compass.N;
+                    }
                 }
                 else
                 {
