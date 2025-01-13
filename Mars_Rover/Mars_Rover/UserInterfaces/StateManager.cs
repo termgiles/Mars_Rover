@@ -21,6 +21,12 @@ namespace Mars_Rover
             this._mainMenu = mainMenu;
             this._settings = settings;
             this._gameDisplay = gameDisplay;
+
+            this._loadingScreen.SetStateManager(this);
+            this._mainMenu.SetStateManager(this);
+            this._settings.SetStateManager(this);
+            this._gameDisplay.SetStateManager(this);
+
             this._state = loadingScreen;
         }
 
@@ -46,7 +52,7 @@ namespace Mars_Rover
                 Transition.QUIT => new Quit(),
             };
             this._state = nextState;
-            this._state.SetStateManager(this);
+            //this._state.SetStateManager(this);
         }
     }
         
