@@ -44,7 +44,8 @@ namespace Mars_Rover
                 }
                 if(i == Instruction.M)
                 {
-                    if (RequestMove(rover))
+                    bool moved = RequestMove(rover);
+                    if (moved)
                     {
                         //UI increment coin score
                         if (rover.Orientation == Compass.N || rover.Orientation == Compass.S)
@@ -52,7 +53,7 @@ namespace Mars_Rover
                         if (rover.Orientation == Compass.E || rover.Orientation == Compass.W)
                             GridArray[(ElementHistory[rover][^2].x), (ElementHistory[rover][^2].y)] = new HorizontalTrack();
                     }
-                    if (!RequestMove(rover))
+                    if (!moved)
                     {
                         Console.WriteLine($"Rover {rover.Name} crashed at {ElementHistory[rover][^1].x} {ElementHistory[rover][^1].y}");
                         break;

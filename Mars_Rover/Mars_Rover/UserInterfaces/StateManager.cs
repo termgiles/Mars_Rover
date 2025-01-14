@@ -52,7 +52,6 @@ namespace Mars_Rover
                 Transition.QUIT => new Quit(),
             };
             this._state = nextState;
-            //this._state.SetStateManager(this);
         }
     }
         
