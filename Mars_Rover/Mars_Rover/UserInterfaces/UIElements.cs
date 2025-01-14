@@ -7,24 +7,24 @@
         {
             if (LoadingImage.Count == 0)
             {
-                LoadingImage.Add("============================================================");
-                LoadingImage.Add("***              *                            *          ***");
-                LoadingImage.Add("**     *                 *                          *     **");
-                LoadingImage.Add("*         *                           *       *            *");
-                LoadingImage.Add("              =   =   =          =      ===    ===          ");
-                LoadingImage.Add("            // \\// \\                                      ");
-                LoadingImage.Add("Loading Image                                               ");
-                LoadingImage.Add("Loading Image                                               ");
-                LoadingImage.Add("Loading Image                                               ");
-                LoadingImage.Add("Loading Image                                               ");
-                LoadingImage.Add("Loading Image                                               ");
-                LoadingImage.Add("Loading Image                                               ");
-                LoadingImage.Add("Loading Image                                               ");
-                LoadingImage.Add("Loading Image                                               ");
-                LoadingImage.Add("Loading Image                                               ");
-                LoadingImage.Add("Loading Image                                               ");
-                LoadingImage.Add("Loading Image                                               ");
-                LoadingImage.Add("Loading Image                                               ");
+                LoadingImage.Add(@"============================================================");
+                LoadingImage.Add(@"***              *                            *          ***");
+                LoadingImage.Add(@"**     *                 *                          *     **");
+                LoadingImage.Add(@"*         *                           *       *            *");
+                LoadingImage.Add(@"           _ _  _ _       ___    _____   _____              ");
+                LoadingImage.Add(@"          // \\// \\     // \\   ||  \\ ||                  ");
+                LoadingImage.Add(@"         //   \/   \\   //===\\  ||===/ \\==\\              ");
+                LoadingImage.Add(@"        //          \\ //     \\ ||  \\  ___|/              ");
+                LoadingImage.Add(@"         _____    ___  _    _ _____ _____                   ");
+                LoadingImage.Add(@"         ||  \\  // \\ \\  // ||    ||  \\                  ");
+                LoadingImage.Add(@"         ||===/ ||   || \\//  ||=== ||===/                  ");
+                LoadingImage.Add(@"         ||  \\  \\_//   \/   ||___ ||  \\                  ");
+                LoadingImage.Add(@"                                                            ");
+                LoadingImage.Add(@" ========================================================== ");
+                LoadingImage.Add(@"             A Game By Tom Giles c. 2025                    ");
+                LoadingImage.Add(@" ========================================================== ");
+                LoadingImage.Add(@"** *       *                         *          * *         ");
+                LoadingImage.Add(@"============================================================");
             }
 
             return LoadingImage;
