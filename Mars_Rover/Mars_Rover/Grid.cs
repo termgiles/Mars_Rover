@@ -131,6 +131,101 @@ namespace Mars_Rover
             if (Write == true) Console.Write(sb.ToString());
             return sb.ToString();
         }
+
+        public void SeedRocks(int density)
+        {
+            if(ElementHistory.Count == 0)
+            {
+                return;
+            }
+
+            int r = density % 100;
+            int k = (int)(Size.xAxis / 5);
+            Random rand = new Random();
+            for (int i = k; i< Size.xAxis; i = i + k)
+            {
+                if(rand.Next(100) <= r)
+                {
+                    int n = rand.Next(k);
+                    for(int j = 0;  j <= n; j++)
+                    {
+                        if (GridArray[i - j, 0] == null)
+                        {
+                            GridArray[i - j, 0] = new Rock();
+                        }
+                    }
+                }
+            }
+            for (int i = k; i < Size.xAxis; i++)
+            {
+                if (this.GridArray[i, 0] != null)
+                {
+                    if(this.GridArray[i,0].Symbol == new Rock().Symbol)
+                    {
+                        if(rand.Next(10) < 8)
+                        {
+                            GridArray[i, 1] = new Rock();
+                        }
+                    }
+                }
+            }
+            for (int i = k; i < Size.xAxis; i++)
+            {
+                if (this.GridArray[i, 1] != null)
+                {
+                    if (this.GridArray[i, 1].Symbol == new Rock().Symbol)
+                    {
+                        if (rand.Next(10) < 6)
+                        {
+                            GridArray[i, 2] = new Rock();
+                        }
+                    }
+                }
+            }
+
+
+            for (int i = k; i < Size.xAxis; i = i + k)
+            {
+                if (rand.Next(100) <= r)
+                {
+                    int n = rand.Next(k);
+                    for (int j = 0; j <= n; j++)
+                    {
+                        if (GridArray[i - j, Size.yAxis -1] == null)
+                        {
+                            GridArray[i - j, Size.yAxis - 1] = new Rock();
+                        }
+                    }
+                }
+            }
+            for (int i = k; i < Size.xAxis; i++)
+            {
+                if (this.GridArray[i, Size.yAxis - 1] != null)
+                {
+                    if (this.GridArray[i, Size.yAxis - 1].Symbol == new Rock().Symbol)
+                    {
+                        if (rand.Next(10) < 8)
+                        {
+                            GridArray[i, Size.yAxis - 2] = new Rock();
+                        }
+                    }
+                }
+            }
+            for (int i = k; i < Size.xAxis; i++)
+            {
+                if (this.GridArray[i, Size.yAxis - 2] != null)
+                {
+                    if (this.GridArray[i, Size.yAxis - 2].Symbol == new Rock().Symbol)
+                    {
+                        if (rand.Next(10) < 6)
+                        {
+                            GridArray[i, Size.yAxis - 3] = new Rock();
+                        }
+                    }
+                }
+            }
+
+        }
     }
 
 }
