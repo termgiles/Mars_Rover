@@ -5,9 +5,7 @@
 Users define a grid layout and a starting position for the rover. The grid is quasi-randomly populated with features each implementing the IGrideElement interface. The user can move the 'rover' using a series of string commands entered in the terminal. The game and it's varaious pages are rendered in ASCII art:
 
 ============================================================
-***              *                            *          ***
-**     *                 *                          *     **
-*         *                           *       *            *
+
            _ _  _ _       ___    _____   _____              
           // \\// \\     // \\   ||  \\ ||                  
          //   \/   \\   //===\\  ||===/ \\==\\              
@@ -18,10 +16,7 @@ Users define a grid layout and a starting position for the rover. The grid is qu
          ||  \\  \\_//   \/   ||___ ||  \\                  
                                                             
  ========================================================== 
-             A Game By Tom Giles c. 2025                    
- ========================================================== 
-** *       *                         *          * *         
-============================================================
+
 
 
 ### Roadmap
