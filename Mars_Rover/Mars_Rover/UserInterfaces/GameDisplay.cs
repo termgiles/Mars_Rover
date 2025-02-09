@@ -39,7 +39,7 @@
             
 
             this.liveGrid = Grid.GenerateGrid(gridSize, rover, startingPosition);
-            this.liveGrid.SeedRocks(75);
+            this.liveGrid.Seeder.SeedBorder(60);
 
             bool isExited = false;
             while (!isExited)

@@ -2,16 +2,18 @@
 
 namespace Mars_Rover
 {
-    public class Grid 
+    public class Grid
     {
         public GridSize Size { get; private set; }
         public IGridElement[,] GridArray { get; private set; }
-        public Dictionary<IGridElement,List<Position>> ElementHistory { get; private set; } = new Dictionary<IGridElement,List<Position>>();
+        public Dictionary<IGridElement, List<Position>> ElementHistory { get; private set; } = new Dictionary<IGridElement, List<Position>>();
+        public GridSeeder Seeder;
 
         private Grid(GridSize size)
         {
             Size = size;
             GridArray = new IGridElement[size.xAxis, size.yAxis];
+            Seeder = new GridSeeder(this);
         }
 
         public static Grid GenerateGrid(GridSize size, Rover rover, Position roverPosition)
@@ -19,7 +21,7 @@ namespace Mars_Rover
             Grid newGrid = new Grid(size);
             newGrid.GridArray[roverPosition.x, roverPosition.y] = rover;
             rover.Orientation = roverPosition.orientation;
-            newGrid.ElementHistory.Add(rover,new List<Position> {roverPosition});
+            newGrid.ElementHistory.Add(rover, new List<Position> { roverPosition });
             return newGrid;
         }
 
@@ -30,19 +32,19 @@ namespace Mars_Rover
             this.ElementHistory.Add(rover, new List<Position> { roverPosition });
         }
 
-        public void InstructRover(List<Instruction> instructions,Rover rover)
+        public void InstructRover(List<Instruction> instructions, Rover rover)
         {
             if (!ElementHistory.Keys.Contains(rover))
             {
                 throw new Exception("Rover not on grid");
             }
-            foreach(Instruction i in instructions)
+            foreach (Instruction i in instructions)
             {
-                if(i == Instruction.L || i == Instruction.R)
+                if (i == Instruction.L || i == Instruction.R)
                 {
                     rover.Rotate(i);
                 }
-                if(i == Instruction.M)
+                if (i == Instruction.M)
                 {
                     bool moved = RequestMove(rover);
                     if (moved)
@@ -61,7 +63,7 @@ namespace Mars_Rover
                 }
             }
         }
-        
+
 
         public bool RequestMove(Rover rover)
         {
@@ -104,8 +106,8 @@ namespace Mars_Rover
             {
                 sb.Append('=');
             }
-                sb.Append("\n");
-            for (int i = this.Size.yAxis -1; i >= 0; i--)
+            sb.Append("\n");
+            for (int i = this.Size.yAxis - 1; i >= 0; i--)
             {
                 sb.Append("||");
                 for (int j = 0; j < this.Size.xAxis; j++)
@@ -126,106 +128,12 @@ namespace Mars_Rover
             {
                 sb.Append('=');
             }
-                sb.Append("\n");
+            sb.Append("\n");
 
             if (Write == true) Console.Write(sb.ToString());
             return sb.ToString();
         }
 
-        public void SeedRocks(int density)
-        {
-            if(ElementHistory.Count == 0)
-            {
-                return;
-            }
-
-            int r = density % 100;
-            int k = (int)(Size.xAxis / 5);
-            Random rand = new Random();
-            for (int i = k; i< Size.xAxis; i = i + k)
-            {
-                if(rand.Next(100) <= r)
-                {
-                    int n = rand.Next(k);
-                    for(int j = 0;  j <= n; j++)
-                    {
-                        if (GridArray[i - j, 0] == null)
-                        {
-                            GridArray[i - j, 0] = new Rock();
-                        }
-                    }
-                }
-            }
-            for (int i = k; i < Size.xAxis; i++)
-            {
-                if (this.GridArray[i, 0] != null)
-                {
-                    if(this.GridArray[i,0].Symbol == new Rock().Symbol)
-                    {
-                        if(rand.Next(10) < 8)
-                        {
-                            GridArray[i, 1] = new Rock();
-                        }
-                    }
-                }
-            }
-            for (int i = k; i < Size.xAxis; i++)
-            {
-                if (this.GridArray[i, 1] != null)
-                {
-                    if (this.GridArray[i, 1].Symbol == new Rock().Symbol)
-                    {
-                        if (rand.Next(10) < 6)
-                        {
-                            GridArray[i, 2] = new Rock();
-                        }
-                    }
-                }
-            }
-
-
-            for (int i = k; i < Size.xAxis; i = i + k)
-            {
-                if (rand.Next(100) <= r)
-                {
-                    int n = rand.Next(k);
-                    for (int j = 0; j <= n; j++)
-                    {
-                        if (GridArray[i - j, Size.yAxis -1] == null)
-                        {
-                            GridArray[i - j, Size.yAxis - 1] = new Rock();
-                        }
-                    }
-                }
-            }
-            for (int i = k; i < Size.xAxis; i++)
-            {
-                if (this.GridArray[i, Size.yAxis - 1] != null)
-                {
-                    if (this.GridArray[i, Size.yAxis - 1].Symbol == new Rock().Symbol)
-                    {
-                        if (rand.Next(10) < 8)
-                        {
-                            GridArray[i, Size.yAxis - 2] = new Rock();
-                        }
-                    }
-                }
-            }
-            for (int i = k; i < Size.xAxis; i++)
-            {
-                if (this.GridArray[i, Size.yAxis - 2] != null)
-                {
-                    if (this.GridArray[i, Size.yAxis - 2].Symbol == new Rock().Symbol)
-                    {
-                        if (rand.Next(10) < 6)
-                        {
-                            GridArray[i, Size.yAxis - 3] = new Rock();
-                        }
-                    }
-                }
-            }
-
-        }
     }
 
 }
