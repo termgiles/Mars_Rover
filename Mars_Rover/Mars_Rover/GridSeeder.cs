@@ -215,9 +215,39 @@ namespace Mars_Rover
             }
         }
 
-        public void SeedInterior()
+        public void SeedInterior(Position startingPosition)
         {
-            return;
+            if (_grid.Size.xAxis < 15 || _grid.Size.yAxis < 15) return;
+            int xInteriorBoxes = (int)((_grid.Size.xAxis - 10) / 5);
+            int yInteriorBoxes = (int)((_grid.Size.yAxis - 10) / 5);
+
+            int xBoxDim = (int)(_grid.Size.xAxis - 10) / xInteriorBoxes;
+            int yBoxDim = (int)(_grid.Size.yAxis - 10) / yInteriorBoxes;
+
+            Random rand = new Random();
+
+
+            for(int j = 5; j <yInteriorBoxes*yBoxDim; j = j + yBoxDim)
+            {
+                for(int i = 5; i <xInteriorBoxes*xBoxDim; i = i + xBoxDim)
+                {
+                    bool seedBox = true;
+
+                    if(startingPosition.x >= i && startingPosition.x <= i + xBoxDim)
+                    {
+                        if(startingPosition.y >= j && startingPosition.y <= j + yBoxDim)
+                        {
+                            seedBox = false;
+                        }
+                    }
+                    if (seedBox)
+                    {
+                        _grid.GridArray[i + (int)((xBoxDim + 1) / 2), j + (int)((yBoxDim + 1) / 2)] = new Rock();
+                    }
+                }
+            }
+
+
         }
 
     }
