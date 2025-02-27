@@ -11,6 +11,10 @@ namespace Mars_Rover
     {
         protected Grid _grid;
         private int _r = 0;
+
+        //coin related varibales 
+        protected int _coins = 0;
+        public int score { get; private set; }
         public GridSeeder(Grid grid)
         {
             _grid = grid;
@@ -247,6 +251,41 @@ namespace Mars_Rover
                 }
             }
 
+
+        }
+
+        public void SeedCoins()
+        {
+            _coins = (int)(_grid.Size.xAxis * _grid.Size.yAxis / 20);
+            if (_coins < 1) _coins = 1;
+            int toPlace = _coins;
+            List<(int, int)> positions = [];
+
+            Random rand = new Random();
+            while(toPlace > 0)
+            {
+                int xPos = rand.Next(_grid.Size.xAxis);
+                int yPos = rand.Next(_grid.Size.yAxis);
+                bool squareFree = false;
+                if(_grid.GridArray[xPos, yPos] == null)
+                {
+                    squareFree = true;
+                }
+                else
+                {
+                    if (_grid.GridArray[xPos, yPos].IsSolid == false) squareFree = true;
+                }
+                if (squareFree)
+                {
+                    if(!positions.Contains((xPos, yPos))) 
+                    {
+                        _grid.GridArray[xPos, yPos] = new Coin();
+                        toPlace--;
+                        positions.Add((xPos, yPos));
+                        _coins++;
+                    }
+                }
+            }
 
         }
 
