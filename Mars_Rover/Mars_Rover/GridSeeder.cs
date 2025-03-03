@@ -10,7 +10,7 @@ namespace Mars_Rover
     public class GridSeeder
     {
         protected Grid _grid;
-        private int _r = 0;
+        private int _borderSeeded = 0;
 
         //coin related varibales 
         protected int _coins = 0;
@@ -26,11 +26,11 @@ namespace Mars_Rover
             {
                 return;
             }
-            if (_r != 0) return;
+            if (_borderSeeded != 0) return;
 
             SeedX(density);
             SeedY(density);
-            _r++;
+            _borderSeeded++;
         }
 
         private void SeedX(int density)
@@ -271,10 +271,10 @@ namespace Mars_Rover
                 {
                     squareFree = true;
                 }
-                else
-                {
-                    if (_grid.GridArray[xPos, yPos].IsSolid == false) squareFree = true;
-                }
+                //else
+                //{
+                //    if (_grid.GridArray[xPos, yPos].IsSolid == false) squareFree = true;
+                //}
                 if (squareFree)
                 {
                     if(!positions.Contains((xPos, yPos))) 
