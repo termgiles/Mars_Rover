@@ -93,13 +93,14 @@ namespace Mars_Rover
             if (newPosition.x < 0 || newPosition.x >= this.Size.xAxis) return false;
             if (newPosition.y < 0 || newPosition.y >= this.Size.yAxis) return false;
             if (this.GridArray[newPosition.x, newPosition.y] != null && this.GridArray[newPosition.x, newPosition.y].IsSolid) return false;
+            if (this.GridArray[newPosition.x, newPosition.y] != null && this.GridArray[newPosition.x, newPosition.y].Symbol == 'o') this.Seeder.CollectCoin(newPosition);
             this.ElementHistory[rover].Add(newPosition);
             this.GridArray[newPosition.x, newPosition.y] = rover;
             this.GridArray[currentPosition.x, currentPosition.y] = null;
             return true;
         }
 
-        public string Display(bool? Write)
+        public string Display(bool? write)
         {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < this.Size.xAxis + 4; i++)
@@ -130,7 +131,35 @@ namespace Mars_Rover
             }
             sb.Append("\n");
 
-            if (Write == true) Console.Write(sb.ToString());
+            if (write == true) Console.Write(sb.ToString());
+            return sb.ToString();
+        }
+
+        public string DisplayUpperMessage(bool? write, Rover rover)
+        {
+            StringBuilder sb = new StringBuilder();
+            string name = "Name " + rover.Name;
+            string score = "score: " + Seeder.score;
+
+            if (name.Length +  score.Length > this.Size.xAxis)
+            {
+                for(int i = 0; i < this.Size.xAxis - score.Length + 4; i++)
+                {
+                    sb.Append(' ');
+                }
+                sb.Append(score);
+            }
+            else
+            {
+                sb.Append(name);
+                for (int i = 0; i < this.Size.xAxis - score.Length - name.Length + 4; i++)
+                {
+                    sb.Append(' ');
+                }
+                sb.Append(score);
+            }
+            sb.Append("\n");
+            if (write == true) Console.Write(sb.ToString());
             return sb.ToString();
         }
 

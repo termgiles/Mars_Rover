@@ -14,7 +14,7 @@ namespace Mars_Rover
 
         //coin related varibales 
         protected int _coins = 0;
-        public int score { get; private set; }
+        public int score { get; private set; } = 0;
         public GridSeeder(Grid grid)
         {
             _grid = grid;
@@ -271,10 +271,6 @@ namespace Mars_Rover
                 {
                     squareFree = true;
                 }
-                //else
-                //{
-                //    if (_grid.GridArray[xPos, yPos].IsSolid == false) squareFree = true;
-                //}
                 if (squareFree)
                 {
                     if(!positions.Contains((xPos, yPos))) 
@@ -287,6 +283,12 @@ namespace Mars_Rover
                 }
             }
 
+        }
+
+        public int CollectCoin(Position position)
+        {
+            score++;
+            return score;
         }
 
     }
