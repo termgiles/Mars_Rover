@@ -48,6 +48,7 @@
             {
                 liveGrid.DisplayUpperMessage(true, rover);
                 liveGrid.Display(true);
+                liveGrid.DisplayLowerMessage(true);
                 Console.WriteLine("Enter a string to move (LRMM = Left Right Move Move) or 2 for main menu, 3 to quit:");
                 try
                 {

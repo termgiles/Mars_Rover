@@ -8,6 +8,7 @@ namespace Mars_Rover
         public IGridElement[,] GridArray { get; private set; }
         public Dictionary<IGridElement, List<Position>> ElementHistory { get; private set; } = new Dictionary<IGridElement, List<Position>>();
         public GridSeeder Seeder;
+        public Queue<string> Logs = new Queue<string>();
 
         private Grid(GridSize size)
         {
@@ -49,7 +50,6 @@ namespace Mars_Rover
                     bool moved = RequestMove(rover);
                     if (moved)
                     {
-                        //UI increment coin score
                         if (rover.Orientation == Compass.N || rover.Orientation == Compass.S)
                             GridArray[(ElementHistory[rover][^2].x), (ElementHistory[rover][^2].y)] = new VerticalTrack();
                         if (rover.Orientation == Compass.E || rover.Orientation == Compass.W)
@@ -57,7 +57,7 @@ namespace Mars_Rover
                     }
                     if (!moved)
                     {
-                        Console.WriteLine($"Rover {rover.Name} crashed at {ElementHistory[rover][^1].x} {ElementHistory[rover][^1].y}");
+                        Logs.Enqueue($"Rover {rover.Name} crashed at {ElementHistory[rover][^1].x} {ElementHistory[rover][^1].y}");
                         break;
                     }
                 }
@@ -163,6 +163,20 @@ namespace Mars_Rover
             return sb.ToString();
         }
 
+        public string DisplayLowerMessage(bool? write)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            if(Logs.Count > 0)
+            {
+                sb.Append(Logs.Dequeue());
+                sb.Append("\n");
+            }
+
+            if (write == true) Console.Write(sb.ToString());
+            return sb.ToString();
+
+        }
     }
 
 }
