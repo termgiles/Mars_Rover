@@ -7,24 +7,37 @@
         {
             Transition nextState = Transition.DISPLAY;
 
-
-            Console.WriteLine("Enter a grid size in the format: ## ##");
-            string userGridSize = Console.ReadLine();
+            GridSize gridSize = new GridSize(0, 0);
+            bool stillPartsingSize = true;
+            while (stillPartsingSize)
+            {
+                try
+                {
+                    Console.WriteLine("Enter a grid size in the format: ## ##");
+                    string userGridSize = Console.ReadLine();
+                    gridSize = InputParser.StringToGridSize(userGridSize);
+                    stillPartsingSize = false;
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine($"{ex.Message} \n try entering a gridsize again");
+                }
+            }
 
             Console.WriteLine("Name your rover:");
             string userRoverName = Console.ReadLine();
 
 
-            bool stillParsing = true;
+            bool stillParsingPosition = true;
             Position startingPosition = new Position();
-            while (stillParsing)
+            while (stillParsingPosition)
             {
                 try
                 {
                     Console.WriteLine("Chose a starting position on the grid in the format ## ## D; 'D' is an optional starting direction, either : N,E,S,W: the default is N");
                     string userStartingPosition = Console.ReadLine();
                     startingPosition = InputParser.ParseRoverStartingPosition(userStartingPosition);
-                    stillParsing = false;
+                    stillParsingPosition = false;
                 }
                 catch (Exception ex)
                 {
@@ -34,8 +47,7 @@
                 }
             }
 
-            Rover rover = new Rover(userRoverName, Compass.N);
-            GridSize gridSize = InputParser.StringToGridSize(userGridSize);
+            Rover rover = new Rover(userRoverName, startingPosition.orientation);
             
 
             this.liveGrid = Grid.GenerateGrid(gridSize, rover, startingPosition);
@@ -72,8 +84,8 @@
                     Console.WriteLine("enter another input");
                 }
             }
-            //set up while loop here
-            return nextState;       //add
+            
+            return nextState;      
         }
     }
 }
