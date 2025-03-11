@@ -78,6 +78,7 @@
                         break;
                     }
                     liveGrid.InstructRover(InputParser.ParseInstruction(userInput), rover);
+                    Console.Clear();
                 }
                 catch
                 {
