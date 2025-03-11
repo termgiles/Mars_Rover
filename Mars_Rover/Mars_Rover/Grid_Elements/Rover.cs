@@ -12,7 +12,8 @@
         {
             this.Name = name;
             this.Orientation = orientation;
-            this.Symbol = char.ToUpper(name[0]);
+            bool validName = name.Count()  > 0;
+            this.Symbol = validName ? char.ToUpper(name[0]) : '^';
         }
 
         public void Rotate(Instruction d)
