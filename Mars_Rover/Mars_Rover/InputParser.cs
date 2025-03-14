@@ -45,6 +45,33 @@ namespace Mars_Rover
             }
         }
 
+        public static (bool isValid, List<Instruction> instructions) ParseKeyInput(string keyInput)
+        {
+            List<Instruction> output = new List<Instruction>();
+            if(keyInput == "LeftArrow" || keyInput == "a" || keyInput == "A")
+            {
+                output.Add(Instruction.L);
+                return (true, output);
+            }
+            if (keyInput == "RightArrow" || keyInput == "d" || keyInput == "D")
+            {
+                output.Add(Instruction.R);
+                return (true, output);
+            }
+            if (keyInput == "UpArrow" || keyInput == "w" || keyInput == "W")
+            {
+                output.Add(Instruction.M);
+                return (true, output);
+            }
+            if (keyInput == "DownArrow" || keyInput == "s" || keyInput == "S")
+            {
+                output.Add(Instruction.L);
+                output.Add(Instruction.L);
+                return (true, output);
+            }
+            return (false, output);
+        }
+
         public static Position ParseRoverStartingPosition(string roverStartingPositon)
         {
             //[0-9]* [0-9]* [NESW]

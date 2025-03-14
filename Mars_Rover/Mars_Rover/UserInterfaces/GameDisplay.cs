@@ -56,34 +56,72 @@
             this.liveGrid.Seeder.SeedCoins();
 
             bool isExited = false;
-            while (!isExited)
+
+            //if(setting.gameMode.Anologue)
+            if (this._stateManager.IsAnologue())
             {
-                liveGrid.DisplayUpperMessage(true, rover);
-                liveGrid.Display(true);
-                liveGrid.DisplayLowerMessage(true);
-                Console.WriteLine("Enter a string to move (LRMM = Left Right Move Move) or 2 for main menu, 3 to quit:");
-                try
+                while (!isExited)
                 {
-                    string userInput = Console.ReadLine();
-                    if (userInput == "3")
+                    liveGrid.DisplayUpperMessage(true, rover);
+                    liveGrid.Display(true);
+                    liveGrid.DisplayLowerMessage(true);
+                    Console.WriteLine("Enter a string to move (LRMM = Left Right Move Move) or 2 for main menu, 3 to quit:");
+                    try
                     {
-                        nextState = Transition.QUIT;
-                        isExited = true;
-                        break;
+                        string userInput = Console.ReadLine();
+                        if (userInput == "3")
+                        {
+                            nextState = Transition.QUIT;
+                            isExited = true;
+                            break;
+                        }
+                        if (userInput == "2")
+                        {
+                            isExited = true;
+                            nextState = Transition.LOADING_SCREEN;
+                            break;
+                        }
+                        liveGrid.InstructRover(InputParser.ParseInstruction(userInput), rover);
+                        Console.Clear();
                     }
-                    if (userInput == "2")
+                    catch
                     {
-                        isExited = true;
-                        nextState = Transition.SETTINGS;
-                        break;
+                        Console.WriteLine("enter another input");
                     }
-                    liveGrid.InstructRover(InputParser.ParseInstruction(userInput), rover);
+                }
+            }
+
+            if (!this._stateManager.IsAnologue())
+            {
+                while (!isExited)
+                {
+                    liveGrid.DisplayUpperMessage(true, rover);
+                    liveGrid.Display(true);
+                    liveGrid.DisplayLowerMessage(true);
+                    Console.WriteLine("Use arrow keys or wasd:");
+                    if (Console.KeyAvailable)
+                    {
+                        ConsoleKeyInfo inputkey = Console.ReadKey(true);
+                        if (inputkey.KeyChar == '3')
+                        {
+                            nextState = Transition.QUIT;
+                            isExited = true;
+                        }
+                        if (inputkey.KeyChar == '2')
+                        {
+                            nextState = Transition.LOADING_SCREEN;
+                            isExited = true;
+                        }
+                        var inputs = InputParser.ParseKeyInput(inputkey.Key.ToString());
+                        if (inputs.isValid)
+                        {
+                            this.liveGrid.InstructRover(inputs.instructions, rover);
+                        }
+                    }
+                    Thread.Sleep((int)(1000/24));
                     Console.Clear();
                 }
-                catch
-                {
-                    Console.WriteLine("enter another input");
-                }
+
             }
             
             return nextState;      

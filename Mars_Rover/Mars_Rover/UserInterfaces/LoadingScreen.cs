@@ -6,7 +6,8 @@
         private Transition NextState = Transition.MAIN_MENU;
         public override Transition Run()
         {
-            foreach(string line in UIElements.GenerateLoadingImage())
+            Console.Clear();
+            foreach (string line in UIElements.GenerateLoadingImage())
             {
                 Console.WriteLine(line);
                 Thread.Sleep(100);
@@ -15,10 +16,5 @@
             Console.Clear();
             return Transition.MAIN_MENU;
         }
-
-        //public Transition Next()
-        //{
-        //    return NextState;
-        //}
     }
 }

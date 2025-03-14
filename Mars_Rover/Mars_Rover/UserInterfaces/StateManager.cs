@@ -30,6 +30,11 @@ namespace Mars_Rover
             this._state = loadingScreen;
         }
 
+        public bool IsAnologue()
+        {
+            return ((Settings)this._settings).AnalougeMode;
+        }
+
         public UserInterface GetState()
         {
             return this._state;
