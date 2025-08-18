@@ -2,7 +2,7 @@
 
 ## A C# console app-game where users collect coins.
 
-Users define a grid layout and a starting position for the rover. The grid is quasi-randomly populated with features each implementing the IGridElement interface. The user can move the 'rover' using a series of string commands entered in the terminal or using the arrow keys with the terminal executing arrow key inputs recieved between each screen refresh. The game and it's varaious pages are rendered in ASCII art:
+Users define a grid layout and a starting position for the rover. The grid is quasi-randomly populated with features each implementing the IGridElement interface. The user can move the 'rover' using a series of string commands entered in the terminal or using the arrow keys with the terminal executing arrow key inputs recieved between each screen refresh. The game and its varaious pages are rendered in ASCII art:
 
 ============================================================
 
