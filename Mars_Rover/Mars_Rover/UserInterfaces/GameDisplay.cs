@@ -59,7 +59,6 @@
             int cycleCount = 1;
             int clearTrackOn = 4;
 
-            //if(setting.gameMode.Anologue)
             if (this._stateManager.IsAnologue())
             {
                 while (!isExited)
@@ -84,6 +83,10 @@
                             break;
                         }
                         liveGrid.InstructRover(InputParser.ParseInstruction(userInput), rover);
+                        if (this._stateManager.IsDisappearingTracks())
+                        {
+                            this.liveGrid.ClearTrack(rover);
+                        }
                         Console.Clear();
                     }
                     catch
