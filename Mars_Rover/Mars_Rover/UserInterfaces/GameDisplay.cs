@@ -56,6 +56,8 @@
             this.liveGrid.Seeder.SeedCoins();
 
             bool isExited = false;
+            int cycleCount = 1;
+            int clearTrackOn = 4;
 
             //if(setting.gameMode.Anologue)
             if (this._stateManager.IsAnologue())
@@ -95,6 +97,7 @@
             {
                 while (!isExited)
                 {
+
                     liveGrid.DisplayUpperMessage(true, rover);
                     liveGrid.Display(true);
                     liveGrid.DisplayLowerMessage(true);
@@ -118,6 +121,11 @@
                             this.liveGrid.InstructRover(inputs.instructions, rover);
                         }
                     }
+                    if (this._stateManager.IsDisappearingTracks() && cycleCount % clearTrackOn == 0)
+                    {
+                        this.liveGrid.ClearTrack(rover);
+                    }
+                    cycleCount = (cycleCount + 1) % int.MaxValue; 
                     Thread.Sleep((int)(1000/24));
                     Console.Clear();
                 }

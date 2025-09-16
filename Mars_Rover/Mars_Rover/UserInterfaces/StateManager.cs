@@ -35,6 +35,11 @@ namespace Mars_Rover
             return ((Settings)this._settings).AnalougeMode;
         }
 
+        public bool IsDisappearingTracks()
+        {
+            return ((Settings)this._settings).DisappearingTracks;
+        }
+
         public UserInterface GetState()
         {
             return this._state;

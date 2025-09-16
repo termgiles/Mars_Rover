@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 
 namespace Mars_Rover
 {
@@ -9,6 +10,7 @@ namespace Mars_Rover
         public Dictionary<IGridElement, List<Position>> ElementHistory { get; private set; } = new Dictionary<IGridElement, List<Position>>();
         public GridSeeder Seeder;
         public Queue<string> Logs = new Queue<string>();
+        private int tracksCleared = 0;
 
         private Grid(GridSize size)
         {
@@ -98,6 +100,25 @@ namespace Mars_Rover
             this.GridArray[newPosition.x, newPosition.y] = rover;
             this.GridArray[currentPosition.x, currentPosition.y] = null;
             return true;
+        }
+
+        public void ClearTrack(Rover rover)
+        {
+            Position oldestUnclearedPosition = ElementHistory[rover][tracksCleared];
+            if (this.GridArray[oldestUnclearedPosition.x, oldestUnclearedPosition.y] == null)
+            {
+                tracksCleared++;
+                return;
+            }
+            if (this.GridArray[oldestUnclearedPosition.x, oldestUnclearedPosition.y].IsSolid)
+            {
+                return;
+            }
+            else
+            {
+                this.GridArray[oldestUnclearedPosition.x, oldestUnclearedPosition.y] = null;
+                tracksCleared++;
+            }
         }
 
         public string Display(bool? write)
