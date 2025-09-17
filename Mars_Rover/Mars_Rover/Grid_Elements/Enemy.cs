@@ -1,6 +1,6 @@
 ﻿namespace Mars_Rover
 {
-    public class Enemy : IGridElement
+    public class Enemy : IGridCharacter
     {
         public bool IsSolid { get; private set; } = true;
         public char Symbol { get; } = '@';

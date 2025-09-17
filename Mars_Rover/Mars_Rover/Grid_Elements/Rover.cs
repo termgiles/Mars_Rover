@@ -1,6 +1,6 @@
 ﻿namespace Mars_Rover
 {
-    public class Rover : IGridElement
+    public class Rover : IGridCharacter
     {
         public string Name { get; private set; }
         public bool IsSolid { get; private set; } = true;
