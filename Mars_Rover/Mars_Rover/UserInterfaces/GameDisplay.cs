@@ -51,6 +51,7 @@
             
 
             this.liveGrid = Grid.GenerateGrid(gridSize, rover, startingPosition);
+            if(this._stateManager.IsEnemyOn() && !this._stateManager.IsAnologue()) this.liveGrid.Seeder.SeedEnemy(startingPosition);
             this.liveGrid.Seeder.SeedBorder(60);
             this.liveGrid.Seeder.SeedInterior(startingPosition);
             this.liveGrid.Seeder.SeedCoins();
