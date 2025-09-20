@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Mars_Rover
@@ -35,9 +36,13 @@ namespace Mars_Rover
 
         private void SeedX(int density)
         {
+            if (_grid.Size.yAxis < 5)
+            {
+                return;
+            }
             
             int r = density % 100;
-            int k = (int)(_grid.Size.xAxis / 5);
+            int k = Math.Max((int)(_grid.Size.xAxis / 5),3);
             Random rand = new Random();
             for (int i = k; i < _grid.Size.xAxis -k; i = i + k)
             {
@@ -66,6 +71,10 @@ namespace Mars_Rover
                     }
                 }
             }
+            if(_grid.Size.yAxis < 7)
+            {
+                return;
+            }
             for (int i = k; i < _grid.Size.xAxis; i++)
             {
                 if (_grid.GridArray[i, 1] != null)
@@ -80,10 +89,6 @@ namespace Mars_Rover
                 }
             }
 
-            if(_grid.Size.yAxis < 7)
-            {
-                return;
-            }
 
             for (int i = k; i < _grid.Size.xAxis -k; i = i + k)
             {
@@ -129,9 +134,13 @@ namespace Mars_Rover
 
         private void SeedY(int density)
         {
+            if (_grid.Size.xAxis < 5)
+            {
+                return;
+            }
 
             int r = density % 100;
-            int k = (int)(_grid.Size.yAxis / 5);
+            int k = Math.Max((int)(_grid.Size.yAxis / 5),3);
             Random rand = new Random();
             for (int i = k; i < _grid.Size.yAxis; i = i + k)
             {
@@ -158,6 +167,10 @@ namespace Mars_Rover
                     }
                 }
             }
+            if (_grid.Size.xAxis < 7)
+            {
+                return;
+            }
             for (int i = 0; i < _grid.Size.yAxis; i++)
             {
                 if (_grid.GridArray[1, i] != null)
@@ -172,10 +185,6 @@ namespace Mars_Rover
                 }
             }
 
-            if (_grid.Size.xAxis < 7)
-            {
-                return;
-            }
 
             for (int i = k; i < _grid.Size.yAxis; i = i + k)
             {
