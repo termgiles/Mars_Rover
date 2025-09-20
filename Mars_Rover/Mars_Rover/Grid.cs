@@ -28,11 +28,11 @@ namespace Mars_Rover
             return newGrid;
         }
 
-        public void LandRover(Rover rover, Position roverPosition)
+        public void LandCharacter(IGridCharacter character, Position characterPosition)
         {
-            this.GridArray[roverPosition.x, roverPosition.y] = rover;
-            rover.Orientation = roverPosition.orientation;
-            this.ElementHistory.Add(rover, new List<Position> { roverPosition });
+            this.GridArray[characterPosition.x, characterPosition.y] = character;
+            character.Orientation = characterPosition.orientation;
+            this.ElementHistory.Add(character, new List<Position> { characterPosition });
         }
 
         public void InstructRover(List<Instruction> instructions, Rover rover)
@@ -67,27 +67,27 @@ namespace Mars_Rover
         }
 
 
-        public bool RequestMove(Rover rover)
+        public bool RequestMove(IGridCharacter character)
         {
-            Position currentPosition = ElementHistory[rover][^1];
-            Compass currentOrientation = rover.Orientation;
+            Position currentPosition = ElementHistory[character][^1];
+            Compass currentOrientation = character.Orientation;
             Position newPosition = new Position();
-            if (rover.Orientation == Compass.N)
+            if (character.Orientation == Compass.N)
             {
                 newPosition.x = currentPosition.x;
                 newPosition.y = currentPosition.y + 1;
             }
-            if (rover.Orientation == Compass.E)
+            if (character.Orientation == Compass.E)
             {
                 newPosition.x = currentPosition.x + 1;
                 newPosition.y = currentPosition.y;
             }
-            if (rover.Orientation == Compass.S)
+            if (character.Orientation == Compass.S)
             {
                 newPosition.x = currentPosition.x;
                 newPosition.y = currentPosition.y - 1;
             }
-            if (rover.Orientation == Compass.W)
+            if (character.Orientation == Compass.W)
             {
                 newPosition.x = currentPosition.x - 1;
                 newPosition.y = currentPosition.y;
@@ -96,8 +96,8 @@ namespace Mars_Rover
             if (newPosition.y < 0 || newPosition.y >= this.Size.yAxis) return false;
             if (this.GridArray[newPosition.x, newPosition.y] != null && this.GridArray[newPosition.x, newPosition.y].IsSolid) return false;
             if (this.GridArray[newPosition.x, newPosition.y] != null && this.GridArray[newPosition.x, newPosition.y].Symbol == 'o') this.Seeder.CollectCoin(newPosition);
-            this.ElementHistory[rover].Add(newPosition);
-            this.GridArray[newPosition.x, newPosition.y] = rover;
+            this.ElementHistory[character].Add(newPosition);
+            this.GridArray[newPosition.x, newPosition.y] = character;
             this.GridArray[currentPosition.x, currentPosition.y] = null;
             return true;
         }
