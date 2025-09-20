@@ -40,6 +40,11 @@ namespace Mars_Rover
             return ((Settings)this._settings).DisappearingTracks;
         }
 
+        public bool IsEnemyOn()
+        {
+            return ((Settings)this._settings).EnemyOn;
+        }
+
         public UserInterface GetState()
         {
             return this._state;
