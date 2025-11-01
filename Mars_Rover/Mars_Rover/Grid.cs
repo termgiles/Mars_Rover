@@ -67,6 +67,8 @@ namespace Mars_Rover
         }
 
         //public void InstructEnemy()
+        //this method will determine if the game is lost
+        //if requestedPosition == ElementHistory[rover][^1]
 
         public bool RequestMove(IGridCharacter character)
         {
@@ -111,7 +113,7 @@ namespace Mars_Rover
                 tracksCleared++;
                 return;
             }
-            if (this.GridArray[oldestUnclearedPosition.x, oldestUnclearedPosition.y].IsSolid || oldestUnclearedPosition == ElementHistory[rover][^1] )
+            if (this.GridArray[oldestUnclearedPosition.x, oldestUnclearedPosition.y].IsSolid)
             {
                 return;
             }

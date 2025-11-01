@@ -130,6 +130,7 @@
                         this.liveGrid.ClearTrack(rover);
                     }
                     cycleCount = (cycleCount + 1) % int.MaxValue; 
+                    //add enemy move call here
                     Thread.Sleep((int)(1000/24));
                     Console.Clear();
                 }
