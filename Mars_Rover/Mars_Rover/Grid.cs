@@ -66,6 +66,7 @@ namespace Mars_Rover
             }
         }
 
+        //public void InstructEnemy()
 
         public bool RequestMove(IGridCharacter character)
         {
@@ -110,7 +111,7 @@ namespace Mars_Rover
                 tracksCleared++;
                 return;
             }
-            if (this.GridArray[oldestUnclearedPosition.x, oldestUnclearedPosition.y].IsSolid)
+            if (this.GridArray[oldestUnclearedPosition.x, oldestUnclearedPosition.y].IsSolid || oldestUnclearedPosition == ElementHistory[rover][^1] )
             {
                 return;
             }

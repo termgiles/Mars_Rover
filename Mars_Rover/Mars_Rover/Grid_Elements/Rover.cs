@@ -3,7 +3,7 @@
     public class Rover : IGridCharacter
     {
         public string Name { get; private set; }
-        public bool IsSolid { get; private set; } = true;
+        public bool IsSolid { get; private set; } = false;
         public char Symbol { get; private set; }
         public Compass Orientation { get; set; }
         public List<Compass> History { get; private set; }      //check if needed
