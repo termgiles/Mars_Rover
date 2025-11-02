@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Mars_Rover;
+using System.Diagnostics;
 
 namespace Mars_Rover_Tests
 {
@@ -154,6 +155,68 @@ namespace Mars_Rover_Tests
 
             var output = testGrid.FindRelativeCoords((7, 8), (testStartingPosition.x, testStartingPosition.y));
 
+            Assert.That(output, Is.EquivalentTo(expectedOutput));
+        }
+        [Test]
+        public void Test_FindRelativeCoords_AvoidsEnemy()
+        {
+            Rover testRover = new Rover("testRover", Compass.N);
+            GridSize testSize = new GridSize(10, 10);
+            Position testStartingPosition = new Position() { orientation = Compass.N, x = 8, y = 8 };
+            Grid testGrid = Grid.GenerateGrid(testSize, testRover, testStartingPosition);
+            Enemy testEnemy = new Enemy(Compass.N);
+            testGrid.LandCharacter(testEnemy, new Position() { orientation = Compass.S, x = 4, y = 4 });
+
+            List<(int, int)> expectedOutput = [(3, 5), (3, 3), (2, 4)];
+
+            var output = testGrid.FindRelativeCoords((3, 4), (testStartingPosition.x, testStartingPosition.y));
+
+            Assert.That(output, Is.EquivalentTo(expectedOutput));
+        }
+        [Test]
+        public void Test_DijkstraRover_MovesInLine()
+        {
+            Rover testRover = new Rover("testRover", Compass.N);
+            GridSize testSize = new GridSize(10, 10);
+            Position testStartingPosition = new Position() { orientation = Compass.N, x = 8, y = 8 };
+            Grid testGrid = Grid.GenerateGrid(testSize, testRover, testStartingPosition);
+            Enemy testEnemy = new Enemy(Compass.N);
+            testGrid.LandCharacter(testEnemy, new Position() { orientation = Compass.N, x = 8, y = 4 });
+
+            List<Instruction> expectedOutput = [Instruction.M, Instruction.M, Instruction.M, Instruction.M];
+
+            var output = testGrid.DijkstraRover(testEnemy, testRover);
+            Assert.That(output, Is.EquivalentTo(expectedOutput));
+        }
+        [Test]
+        public void Test_DijkstraRover_Turns()
+        {
+            Rover testRover = new Rover("testRover", Compass.N);
+            GridSize testSize = new GridSize(10, 10);
+            Position testStartingPosition = new Position() { orientation = Compass.N, x = 8, y = 8 };
+            Grid testGrid = Grid.GenerateGrid(testSize, testRover, testStartingPosition);
+            Enemy testEnemy = new Enemy(Compass.W);
+            testGrid.LandCharacter(testEnemy, new Position() { orientation = Compass.W, x = 8, y = 4 });
+
+            List<Instruction> expectedOutput = [Instruction.R, Instruction.M, Instruction.M, Instruction.M, Instruction.M];
+
+            var output = testGrid.DijkstraRover(testEnemy, testRover);
+            Assert.That(output, Is.EquivalentTo(expectedOutput));
+        }
+        [Test]
+        public void Test_DijkstraRover_AvoidsRock()
+        {
+            Rover testRover = new Rover("testRover", Compass.N);
+            GridSize testSize = new GridSize(10, 10);
+            Position testStartingPosition = new Position() { orientation = Compass.N, x = 8, y = 8 };
+            Grid testGrid = Grid.GenerateGrid(testSize, testRover, testStartingPosition);
+            testGrid.GridArray[8, 5] = new Rock();
+            Enemy testEnemy = new Enemy(Compass.N);
+            testGrid.LandCharacter(testEnemy, new Position() { orientation = Compass.N, x = 8, y = 4 });
+
+            List<Instruction> expectedOutput = [Instruction.L, Instruction.M, Instruction.R, Instruction.M, Instruction.M, Instruction.M, Instruction.M, Instruction.R, Instruction.M];
+
+            var output = testGrid.DijkstraRover(testEnemy, testRover);
             Assert.That(output, Is.EquivalentTo(expectedOutput));
         }
     }
