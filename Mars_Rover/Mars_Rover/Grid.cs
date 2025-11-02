@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Mars_Rover
@@ -66,9 +67,93 @@ namespace Mars_Rover
             }
         }
 
-        //public void InstructEnemy()
+        //public void InstructEnemy() //should return a - transition? bool?
         //this method will determine if the game is lost
+        //dijkstra to the rover
+        //stpre somewhere?
+        //request the first move from that
         //if requestedPosition == ElementHistory[rover][^1]
+
+        public List<Instruction> DijkstraRover(IGridCharacter enemy, IGridCharacter rover)
+        {
+            Position roverPosition = ElementHistory[rover][^1];
+            (int, int) roverCoord = (roverPosition.x, roverPosition.y);
+            Position enemyPosition = ElementHistory[enemy][^1];
+            (int, int) enemyCoord = (enemyPosition.x, enemyPosition.y);
+            int cost_turn = 1;
+            int cost_move = 1;
+
+            Dictionary<(int, int), List<Instruction>> routes = new Dictionary<(int, int), List<Instruction>>();
+            for (int x = 0; x < this.Size.xAxis; x++)
+            {
+                for (int y = 0; y < this.Size.yAxis; y++)
+                {
+                    routes[(x, y)] = new List<Instruction>();   //ensures this is not empty
+                }
+            }
+
+            List<Position> nextLayer = [enemyPosition];
+
+            //routes[enemyCoord].Add(Instruction.L); //ensures this is not zero
+
+            while (nextLayer.Count > 0)
+            {
+                List<Position> currentLayer = nextLayer;
+                nextLayer = [];
+
+                foreach (Position pos in currentLayer)
+                {
+                    List<(int, int)> relatives = FindRelativeCoords((pos.x, pos.y), roverCoord);
+                    foreach ((int x, int y) rel in relatives)
+                    {
+                        (int, int) diff = (rel.x - pos.x, rel.y - pos.y);
+                        Compass newOrientation = diff switch
+                        {
+                            (0, 1) => Compass.N,
+                            (0, -1) => Compass.S,
+                            (1, 0) => Compass.E,
+                            (-1, 0) => Compass.W
+                        };
+
+                        int l = (pos.orientation - newOrientation + 4) % 4;
+                        int r = 4 - l;
+                        int turns = Math.Min(l, r);
+                        int cost = turns * cost_turn + cost_move;
+
+                        if (routes[(pos.x, pos.y)].Count + cost < routes[rel].Count || routes[rel].Count == 0)
+                        {
+                            nextLayer.Add(new Position { x = rel.x, y = rel.y, orientation = newOrientation});
+                            List<Instruction> route = new List<Instruction>(routes[(pos.x, pos.y)]);
+                            for (int i = 0; i < turns; i++)
+                            {
+                                if (r < l)
+                                {
+                                    route.Add(Instruction.R);
+                                }
+                                else
+                                {
+                                    route.Add(Instruction.L);
+                                }
+                            }
+                            route.Add(Instruction.M);
+                            routes[(rel.x, rel.y)] = (route);
+                        }
+                    }
+                }
+            }
+            return routes[roverCoord];
+        }
+
+        public List<(int, int)> FindRelativeCoords((int x,int y) coord, (int x, int y) roverCoord)
+        {
+            List<(int, int)> relatives = [];
+            if (coord.x > 0 && (this.GridArray[coord.x -1, coord.y] == null || (coord.x -1, coord.y) == roverCoord)) relatives.Add((coord.x - 1, coord.y));
+            if (coord.x <= this.Size.xAxis -2  && (this.GridArray[coord.x + 1, coord.y] == null || (coord.x + 1, coord.y) == roverCoord)) relatives.Add((coord.x + 1, coord.y));
+            if (coord.y > 0 && (this.GridArray[coord.x, coord.y - 1] == null || (coord.x, coord.y - 1) == roverCoord)) relatives.Add((coord.x, coord.y - 1));
+            if (coord.y <= this.Size.yAxis - 2 && (this.GridArray[coord.x, coord.y + 1] == null || (coord.x, coord.y + 1) == roverCoord)) relatives.Add((coord.x, coord.y + 1));
+
+            return relatives;
+        }
 
         public bool RequestMove(IGridCharacter character)
         {
