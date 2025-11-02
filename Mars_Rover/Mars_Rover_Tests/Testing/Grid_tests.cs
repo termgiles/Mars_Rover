@@ -91,6 +91,70 @@ namespace Mars_Rover_Tests
             bool output = testGrid.RequestMove(testRoverW);
             output.Should().Be(expectedResult);
         }
+        [Test]
+        public void Test_FindRelativeCoords_ReturnsFourCorrectLocations()
+        {
+            Rover testRover = new Rover("testRover", Compass.N);
+            GridSize testSize = new GridSize(10, 10);
+            Position testStartingPosition = new Position() { orientation = Compass.N, x = 8, y = 8 };
+            Grid testGrid = Grid.GenerateGrid(testSize, testRover, testStartingPosition);
+            Enemy testEnemy = new Enemy(Compass.N);
+            testGrid.LandCharacter(testEnemy, new Position() { orientation = Compass.S, x = 5, y = 5 });
 
+            List<(int, int)> expectedOutput = [(7, 8), (9, 8), (8, 7), (8, 9)];
+
+            var output = testGrid.FindRelativeCoords((8, 8), (testStartingPosition.x, testStartingPosition.y));
+
+            Assert.That(output, Is.EquivalentTo(expectedOutput));
+        }
+        [Test]
+        public void Test_FindRelativeCoords_IgnoresSolids()
+        {
+            Rover testRover = new Rover("testRover", Compass.N);
+            GridSize testSize = new GridSize(10, 10);
+            Position testStartingPosition = new Position() { orientation = Compass.N, x = 8, y = 8 };
+            Grid testGrid = Grid.GenerateGrid(testSize, testRover, testStartingPosition);
+            Enemy testEnemy = new Enemy(Compass.N);
+            testGrid.LandCharacter(testEnemy, new Position() { orientation = Compass.S, x = 5, y = 5 });
+            testGrid.GridArray[8, 9] = new Rock();
+
+            List<(int, int)> expectedOutput = [(7, 8), (9, 8), (8, 7)];
+
+            var output = testGrid.FindRelativeCoords((8, 8), (testStartingPosition.x, testStartingPosition.y));
+
+            Assert.That(output, Is.EquivalentTo(expectedOutput));
+        }
+        [Test]
+        public void Test_FindRelativeCoords_IgnoresGridEdge()
+        {
+            Rover testRover = new Rover("testRover", Compass.N);
+            GridSize testSize = new GridSize(10, 10);
+            Position testStartingPosition = new Position() { orientation = Compass.N, x = 4, y = 4 };
+            Grid testGrid = Grid.GenerateGrid(testSize, testRover, testStartingPosition);
+            Enemy testEnemy = new Enemy(Compass.N);
+            testGrid.LandCharacter(testEnemy, new Position() { orientation = Compass.S, x = 9, y = 9 });
+
+            List<(int, int)> expectedOutput = [(9, 8), (8, 9)];
+
+            var output = testGrid.FindRelativeCoords((9, 9), (testStartingPosition.x, testStartingPosition.y));
+
+            Assert.That(output, Is.EquivalentTo(expectedOutput));
+        }
+        [Test]
+        public void Test_FindRelativeCoords_IncludesRover()
+        {
+            Rover testRover = new Rover("testRover", Compass.N);
+            GridSize testSize = new GridSize(10, 10);
+            Position testStartingPosition = new Position() { orientation = Compass.N, x = 8, y = 8 };
+            Grid testGrid = Grid.GenerateGrid(testSize, testRover, testStartingPosition);
+            Enemy testEnemy = new Enemy(Compass.N);
+            testGrid.LandCharacter(testEnemy, new Position() { orientation = Compass.S, x = 7, y = 8 });
+
+            List<(int, int)> expectedOutput = [(8, 8), (6, 8), (7, 9), (7, 7)];
+
+            var output = testGrid.FindRelativeCoords((7, 8), (testStartingPosition.x, testStartingPosition.y));
+
+            Assert.That(output, Is.EquivalentTo(expectedOutput));
+        }
     }
 }
