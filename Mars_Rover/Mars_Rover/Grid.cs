@@ -73,6 +73,25 @@ namespace Mars_Rover
         //stpre somewhere?
         //request the first move from that
         //if requestedPosition == ElementHistory[rover][^1]
+        public bool InstructEnemy(Instruction instruction, Enemy enemy)
+        {
+            if (!ElementHistory.Keys.Contains(enemy))
+            {
+                throw new Exception("Enemy not on grid");
+            }
+            //check win condition
+            //logs
+            if (instruction == Instruction.L || instruction == Instruction.R)
+            {
+                enemy.Rotate(instruction);
+            }
+            if (instruction == Instruction.M)
+            {
+                bool moved = RequestMove(enemy);
+                //enemy crashed / won / got coin?
+            }
+            return false;
+        }
 
         public Queue<Instruction> DijkstraRover(IGridCharacter enemy, IGridCharacter rover)
         {
@@ -160,6 +179,7 @@ namespace Mars_Rover
             Position currentPosition = ElementHistory[character][^1];
             Compass currentOrientation = character.Orientation;
             Position newPosition = new Position();
+            newPosition.orientation = currentOrientation;
             if (character.Orientation == Compass.N)
             {
                 newPosition.x = currentPosition.x;
