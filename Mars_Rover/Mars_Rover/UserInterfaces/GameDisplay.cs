@@ -1,4 +1,7 @@
-﻿namespace Mars_Rover
+﻿using System;
+using System.Diagnostics;
+
+namespace Mars_Rover
 {
     public class GameDisplay : UserInterface
     {
@@ -51,7 +54,11 @@
             
 
             this.liveGrid = Grid.GenerateGrid(gridSize, rover, startingPosition);
-            if(this._stateManager.IsEnemyOn() && !this._stateManager.IsAnologue()) this.liveGrid.Seeder.SeedEnemy(startingPosition);
+            Enemy enemy = new Enemy(Compass.N);     //orientation will be randomly asigned at seeding
+            if (this._stateManager.IsEnemyOn() && !this._stateManager.IsAnologue())
+            {
+                this.liveGrid.Seeder.SeedEnemy(enemy, startingPosition);
+            }
             this.liveGrid.Seeder.SeedBorder(60);
             this.liveGrid.Seeder.SeedInterior(startingPosition);
             this.liveGrid.Seeder.SeedCoins();
@@ -59,6 +66,8 @@
             bool isExited = false;
             int cycleCount = 1;
             int clearTrackOn = 4;
+            int dijkstraRoverOn = 3;//see below
+            int moveEnemyOn = 4;
 
             if (this._stateManager.IsAnologue())
             {
@@ -96,12 +105,13 @@
                     }
                 }
             }
-
             if (!this._stateManager.IsAnologue())
             {
+                Queue<Instruction> pathToRover = this._stateManager.IsEnemyOn() ? this.liveGrid.DijkstraRover(enemy, rover) : new Queue<Instruction>();
                 while (!isExited)
                 {
 
+                    bool roverInstructed = false;
                     liveGrid.DisplayUpperMessage(true, rover);
                     liveGrid.Display(true);
                     liveGrid.DisplayLowerMessage(true);
@@ -123,14 +133,24 @@
                         if (inputs.isValid)
                         {
                             this.liveGrid.InstructRover(inputs.instructions, rover);
+                            if (this._stateManager.IsEnemyOn())
+                            {
+                                pathToRover = this.liveGrid.DijkstraRover(enemy, rover);    //dijkstraRoverOn now redundant once / if this works smoothly
+                            }
                         }
                     }
                     if (this._stateManager.IsDisappearingTracks() && cycleCount % clearTrackOn == 0)
                     {
                         this.liveGrid.ClearTrack(rover);
                     }
+                    if (this._stateManager.IsEnemyOn())
+                    {
+                        if (cycleCount % moveEnemyOn == 0 && pathToRover.Count > 0)
+                        {
+                            this.liveGrid.InstructEnemy(pathToRover.Dequeue(), enemy);
+                        }
+                    }
                     cycleCount = (cycleCount + 1) % int.MaxValue; 
-                    //add enemy move call here
                     Thread.Sleep((int)(1000/24));
                     Console.Clear();
                 }
