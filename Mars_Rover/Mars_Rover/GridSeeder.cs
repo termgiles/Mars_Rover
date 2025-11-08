@@ -300,7 +300,7 @@ namespace Mars_Rover
             return score;
         }
 
-        public void SeedEnemy(Position roverPosition)
+        public void SeedEnemy(Enemy enemy, Position roverPosition)
         {
             int xAxis = _grid.Size.xAxis;
             int yAxis = _grid.Size.yAxis;
@@ -318,6 +318,7 @@ namespace Mars_Rover
             int maxAttempts = 3 * xAxis * yAxis;
             int attempts = 0;
 
+            enemy.Orientation = (Compass)rand.Next(4);
             while (stillLanding && attempts < maxAttempts)
             {
                 int x = rand.Next(xAxis);
@@ -325,7 +326,6 @@ namespace Mars_Rover
 
                 if (Math.Abs(x - roverPosition.x) + Math.Abs(y - roverPosition.y) > minDistance && _grid.GridArray[x, y] == null)
                 {
-                    Enemy enemy = new Enemy((Compass)rand.Next(4));
                     _grid.LandCharacter(enemy, new Position() { x = x, y = y, orientation = enemy.Orientation });
                     stillLanding = false;
                 }
