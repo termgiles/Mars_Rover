@@ -219,5 +219,20 @@ namespace Mars_Rover_Tests
             var output = testGrid.DijkstraRover(testEnemy, testRover);
             Assert.That(output, Is.EquivalentTo(expectedOutput));
         }
+        [Test]
+        public void Test_DijkstraRover_RespectsStartOrientation()
+        {
+            Rover testRover = new Rover("testRover", Compass.N);
+            GridSize testSize = new GridSize(10, 10);
+            Position testStartingPosition = new Position() { orientation = Compass.N, x = 8, y = 8 };
+            Grid testGrid = Grid.GenerateGrid(testSize, testRover, testStartingPosition);
+            Enemy testEnemy = new Enemy(Compass.S);
+            testGrid.LandCharacter(testEnemy, new Position() { orientation = Compass.S, x = 8, y = 4 });
+
+            List<Instruction> expectedOutput = [Instruction.L, Instruction.L, Instruction.M, Instruction.M, Instruction.M, Instruction.M];
+
+            var output = testGrid.DijkstraRover(testEnemy, testRover);
+            Assert.That(output, Is.EquivalentTo(expectedOutput));
+        }
     }
 }
