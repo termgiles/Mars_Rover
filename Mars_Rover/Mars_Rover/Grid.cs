@@ -74,7 +74,7 @@ namespace Mars_Rover
         //request the first move from that
         //if requestedPosition == ElementHistory[rover][^1]
 
-        public List<Instruction> DijkstraRover(IGridCharacter enemy, IGridCharacter rover)
+        public Queue<Instruction> DijkstraRover(IGridCharacter enemy, IGridCharacter rover)
         {
             Position roverPosition = ElementHistory[rover][^1];
             (int, int) roverCoord = (roverPosition.x, roverPosition.y);
@@ -141,7 +141,7 @@ namespace Mars_Rover
                     }
                 }
             }
-            return routes[roverCoord];
+            return new Queue<Instruction>(routes[roverCoord]);
         }
 
         public List<(int, int)> FindRelativeCoords((int x,int y) coord, (int x, int y) roverCoord)
